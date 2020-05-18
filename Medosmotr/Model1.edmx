@@ -1,0 +1,243 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="Хранилище МедосмотрModel" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="principal_id" Type="int" Nullable="false" />
+          <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="version" Type="int" />
+          <Property Name="definition" Type="varbinary(max)" />
+        </EntityType>
+        <EntityType Name="Пациент">
+          <Key>
+            <PropertyRef Name="Код_пациента" />
+          </Key>
+          <Property Name="Код_пациента" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ФИО" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Пол" Type="nvarchar" MaxLength="2" Nullable="false" />
+          <Property Name="Серия" Type="nvarchar" MaxLength="4" Nullable="false" />
+          <Property Name="Номер" Type="nvarchar" MaxLength="6" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Посещение">
+          <Key>
+            <PropertyRef Name="Код_посещения" />
+          </Key>
+          <Property Name="Код_посещения" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Код_пациента" Type="int" Nullable="false" />
+          <Property Name="Код_специалиста" Type="int" Nullable="false" />
+          <Property Name="Дата" Type="date" Nullable="false" />
+          <Property Name="Заключение" Type="nvarchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Специалист">
+          <Key>
+            <PropertyRef Name="Код_специалиста" />
+          </Key>
+          <Property Name="Код_специалиста" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Название" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="ФИО" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Номер_кабинета" Type="int" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_Посещение_Пациент">
+          <End Role="Пациент" Type="Self.Пациент" Multiplicity="1" />
+          <End Role="Посещение" Type="Self.Посещение" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Пациент">
+              <PropertyRef Name="Код_пациента" />
+            </Principal>
+            <Dependent Role="Посещение">
+              <PropertyRef Name="Код_пациента" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Посещение_Специалист">
+          <End Role="Специалист" Type="Self.Специалист" Multiplicity="1" />
+          <End Role="Посещение" Type="Self.Посещение" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Специалист">
+              <PropertyRef Name="Код_специалиста" />
+            </Principal>
+            <Dependent Role="Посещение">
+              <PropertyRef Name="Код_специалиста" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="Хранилище МедосмотрModelContainer">
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Пациент" EntityType="Self.Пациент" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Посещение" EntityType="Self.Посещение" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Специалист" EntityType="Self.Специалист" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_Посещение_Пациент" Association="Self.FK_Посещение_Пациент">
+            <End Role="Пациент" EntitySet="Пациент" />
+            <End Role="Посещение" EntitySet="Посещение" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Посещение_Специалист" Association="Self.FK_Посещение_Специалист">
+            <End Role="Специалист" EntitySet="Специалист" />
+            <End Role="Посещение" EntitySet="Посещение" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="МедосмотрModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="principal_id" Type="Int32" Nullable="false" />
+          <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="version" Type="Int32" />
+          <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+        </EntityType>
+        <EntityType Name="Пациент">
+          <Key>
+            <PropertyRef Name="Код_пациента" />
+          </Key>
+          <Property Name="Код_пациента" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ФИО" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Пол" Type="String" MaxLength="2" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Серия" Type="String" MaxLength="4" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Номер" Type="String" MaxLength="6" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="Посещение" Relationship="Self.FK_Посещение_Пациент" FromRole="Пациент" ToRole="Посещение" />
+        </EntityType>
+        <EntityType Name="Посещение">
+          <Key>
+            <PropertyRef Name="Код_посещения" />
+          </Key>
+          <Property Name="Код_посещения" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Код_пациента" Type="Int32" Nullable="false" />
+          <Property Name="Код_специалиста" Type="Int32" Nullable="false" />
+          <Property Name="Дата" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="Заключение" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="Пациент" Relationship="Self.FK_Посещение_Пациент" FromRole="Посещение" ToRole="Пациент" />
+          <NavigationProperty Name="Специалист" Relationship="Self.FK_Посещение_Специалист" FromRole="Посещение" ToRole="Специалист" />
+        </EntityType>
+        <EntityType Name="Специалист">
+          <Key>
+            <PropertyRef Name="Код_специалиста" />
+          </Key>
+          <Property Name="Код_специалиста" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Название" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="ФИО" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Номер_кабинета" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Посещение" Relationship="Self.FK_Посещение_Специалист" FromRole="Специалист" ToRole="Посещение" />
+        </EntityType>
+        <Association Name="FK_Посещение_Пациент">
+          <End Role="Пациент" Type="Self.Пациент" Multiplicity="1" />
+          <End Role="Посещение" Type="Self.Посещение" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Пациент">
+              <PropertyRef Name="Код_пациента" />
+            </Principal>
+            <Dependent Role="Посещение">
+              <PropertyRef Name="Код_пациента" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Посещение_Специалист">
+          <End Role="Специалист" Type="Self.Специалист" Multiplicity="1" />
+          <End Role="Посещение" Type="Self.Посещение" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Специалист">
+              <PropertyRef Name="Код_специалиста" />
+            </Principal>
+            <Dependent Role="Посещение">
+              <PropertyRef Name="Код_специалиста" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="Context" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" />
+          <EntitySet Name="Пациент" EntityType="Self.Пациент" />
+          <EntitySet Name="Посещение" EntityType="Self.Посещение" />
+          <EntitySet Name="Специалист" EntityType="Self.Специалист" />
+          <AssociationSet Name="FK_Посещение_Пациент" Association="Self.FK_Посещение_Пациент">
+            <End Role="Пациент" EntitySet="Пациент" />
+            <End Role="Посещение" EntitySet="Посещение" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Посещение_Специалист" Association="Self.FK_Посещение_Специалист">
+            <End Role="Специалист" EntitySet="Специалист" />
+            <End Role="Посещение" EntitySet="Посещение" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="Хранилище МедосмотрModelContainer" CdmEntityContainer="Context">
+          <EntitySetMapping Name="sysdiagrams">
+            <EntityTypeMapping TypeName="МедосмотрModel.sysdiagrams">
+              <MappingFragment StoreEntitySet="sysdiagrams">
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="principal_id" ColumnName="principal_id" />
+                <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
+                <ScalarProperty Name="version" ColumnName="version" />
+                <ScalarProperty Name="definition" ColumnName="definition" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Пациент">
+            <EntityTypeMapping TypeName="МедосмотрModel.Пациент">
+              <MappingFragment StoreEntitySet="Пациент">
+                <ScalarProperty Name="Код_пациента" ColumnName="Код_пациента" />
+                <ScalarProperty Name="ФИО" ColumnName="ФИО" />
+                <ScalarProperty Name="Пол" ColumnName="Пол" />
+                <ScalarProperty Name="Серия" ColumnName="Серия" />
+                <ScalarProperty Name="Номер" ColumnName="Номер" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Посещение">
+            <EntityTypeMapping TypeName="МедосмотрModel.Посещение">
+              <MappingFragment StoreEntitySet="Посещение">
+                <ScalarProperty Name="Код_посещения" ColumnName="Код_посещения" />
+                <ScalarProperty Name="Код_пациента" ColumnName="Код_пациента" />
+                <ScalarProperty Name="Код_специалиста" ColumnName="Код_специалиста" />
+                <ScalarProperty Name="Дата" ColumnName="Дата" />
+                <ScalarProperty Name="Заключение" ColumnName="Заключение" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Специалист">
+            <EntityTypeMapping TypeName="МедосмотрModel.Специалист">
+              <MappingFragment StoreEntitySet="Специалист">
+                <ScalarProperty Name="Код_специалиста" ColumnName="Код_специалиста" />
+                <ScalarProperty Name="Название" ColumnName="Название" />
+                <ScalarProperty Name="ФИО" ColumnName="ФИО" />
+                <ScalarProperty Name="Номер_кабинета" ColumnName="Номер_кабинета" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Нет" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
